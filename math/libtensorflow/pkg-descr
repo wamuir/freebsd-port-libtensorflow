@@ -1,0 +1,7 @@
+TensorFlow is an end-to-end open source platform for machine learning. It has a
+comprehensive, flexible ecosystem of tools, libraries, and community resources
+that lets researchers push the state-of-the-art in ML and developers easily
+build and deploy ML-powered applications. The TensorFlow C API is typically a
+requirement of TensorFlow APIs in other languages such as Go and Rust.
+
+WWW: https://www.tensorflow.org/install/lang_c
