@@ -1,4 +1,4 @@
---- .bazelrc.orig	2021-09-16 14:19:53 UTC
+--- .bazelrc.orig	2021-09-25 06:40:15 UTC
 +++ .bazelrc
 @@ -299,6 +299,10 @@ build:windows --copt=/D_USE_MATH_DEFINES
  build:windows --host_copt=/D_USE_MATH_DEFINES
@@ -20,28 +20,13 @@
  build:ios --cxxopt=-std=c++14
  build:ios --host_cxxopt=-std=c++14
  build:linux --cxxopt=-std=c++14
-@@ -321,6 +327,14 @@ build:macos --host_cxxopt=-std=c++14
- build:windows --cxxopt=/std:c++14
- build:windows --host_cxxopt=/std:c++14
+@@ -588,6 +594,9 @@ test:release_cpu_linux --test_env=LD_LIBRARY_PATH
  
-+# On freebsd, link backtrace access library
-+build:freebsd --linkopt=-lexecinfo
-+build:freebsd --host_linkopt=-lexecinfo
-+
-+# On freebsd, warn on unresolved symbols (llvm/lib/support)
-+build:freebsd --linkopt=-Wl,--warn-unresolved-symbols
-+build:freebsd --host_linkopt=-Wl,--warn-unresolved-symbols
-+
- # On windows, we still link everything into a single DLL.
- build:windows --config=monolithic
- 
-@@ -589,6 +603,9 @@ test:release_cpu_linux --test_env=LD_LIBRARY_PATH
  build:release_cpu_macos --config=release_base
  build:release_cpu_macos --config=avx_linux
- 
++
 +build:release_cpu_freebsd --config=release_base
 +build:release_cpu_freebsd --config=avx_linux
-+
+ 
  build:release_gpu_base --config=cuda
  build:release_gpu_base --action_env=TF_CUDA_VERSION="11"
- build:release_gpu_base --action_env=TF_CUDNN_VERSION="8"
