@@ -1,6 +1,9 @@
---- third_party/llvm/llvm_BUILD.patch.orig	2021-09-27 08:07:28 UTC
-+++ third_party/llvm/llvm_BUILD.patch
-@@ -0,0 +1,18 @@
+--- third_party/llvm/macos_build_fix.patch.orig	2021-10-08 21:43:19 UTC
++++ third_party/llvm/macos_build_fix.patch
+@@ -25,3 +25,21 @@ index ff64df694048..55f3077bff74 100644
+ -- 
+ 2.33.0.685.g46640cef36-goog
+ 
 +diff --git a/utils/bazel/llvm-project-overlay/llvm/BUILD.bazel b/utils/bazel/llvm-project-overlay/llvm/BUILD.bazel
 +--- a/utils/bazel/llvm-project-overlay/llvm/BUILD.bazel
 ++++ b/utils/bazel/llvm-project-overlay/llvm/BUILD.bazel

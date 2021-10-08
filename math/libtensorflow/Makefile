@@ -1,6 +1,7 @@
 PORTNAME=	libtensorflow
 DISTVERSIONPREFIX=	v
 DISTVERSION=	2.7.0
+DISTVERSIONPREFIX=	-rc0
 CATEGORIES=	math
 
 MAINTAINER=	wamuir@gmail.com
@@ -27,7 +28,6 @@ BINARY_ALIAS+=	python=${PYTHON_CMD}
 USE_GITHUB=	yes
 GH_ACCOUNT=	tensorflow
 GH_PROJECT=	tensorflow
-GH_TAGNAME=	0a3c5b0b7b72ab85addb8b17e42f3748f3a5b054
 
 USE_LDCONFIG=	yes
 
