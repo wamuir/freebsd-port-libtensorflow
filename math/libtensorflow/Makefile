@@ -57,21 +57,27 @@ do-configure:
 		${LOCALBASE}/bin/bash ./configure
 
 do-build:
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} build -s \
+	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} build \
 		${BAZEL_ARGS} \
 		--action_env=PATH=${PATH} \
 		--config=release_cpu_freebsd \
 		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
+		--noshow_loading_progress \
+		--noshow_progress \
+		--subcommands \
 		--verbose_failures \
 		//tensorflow/tools/lib_package:clicenses_generate \
 		//tensorflow/tools/lib_package:libtensorflow.tar.gz
 
 do-test:
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} test -s \
+	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} test \
 		${BAZEL_ARGS} \
 		--action_env=PATH=${PATH} \
 		--config=release_cpu_freebsd \
 		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
+		--noshow_loading_progress \
+		--noshow_progress \
+		--subcommands \
 		--test_env=CC=${CC} \
 		--verbose_failures \
 		//tensorflow/tools/lib_package:libtensorflow_test
