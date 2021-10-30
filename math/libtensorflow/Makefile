@@ -21,7 +21,7 @@ BUILD_DEPENDS=	bash:shells/bash \
 		git:devel/git \
 		${PYNUMPY}
 
-USES=	python:3.8,build
+USES=	python:3.7-3.9,build
 BINARY_ALIAS=	python3=${PYTHON_CMD}
 BINARY_ALIAS+=	python=${PYTHON_CMD}
 
