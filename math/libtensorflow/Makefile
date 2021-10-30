@@ -61,6 +61,7 @@ do-build:
 		${BAZEL_ARGS} \
 		--action_env=PATH=${PATH} \
 		--config=release_cpu_freebsd \
+		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
 		--verbose_failures \
 		//tensorflow/tools/lib_package:clicenses_generate \
 		//tensorflow/tools/lib_package:libtensorflow.tar.gz
@@ -70,6 +71,7 @@ do-test:
 		${BAZEL_ARGS} \
 		--action_env=PATH=${PATH} \
 		--config=release_cpu_freebsd \
+		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
 		--test_env=CC=${CC} \
 		--verbose_failures \
 		//tensorflow/tools/lib_package:libtensorflow_test
