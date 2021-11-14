@@ -20,13 +20,3 @@
  build:ios --cxxopt=-std=c++14
  build:ios --host_cxxopt=-std=c++14
  build:linux --cxxopt=-std=c++14
-@@ -588,6 +594,9 @@ test:release_cpu_linux --test_env=LD_LIBRARY_PATH
- 
- build:release_cpu_macos --config=release_base
- build:release_cpu_macos --config=avx_linux
-+
-+build:release_cpu_freebsd --config=release_base
-+build:release_cpu_freebsd --config=avx_linux
- 
- build:release_gpu_base --config=cuda
- build:release_gpu_base --action_env=TF_CUDA_VERSION="11"

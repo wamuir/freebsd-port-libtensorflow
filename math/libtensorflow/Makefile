@@ -14,7 +14,7 @@ LICENSE_FILE_APACHE20=	${WRKSRC}/LICENSE
 LICENSE_FILE_THIRD_PARTY_TF_C_LICENSES=	${WRKDIR}/THIRD_PARTY_TF_C_LICENSES
 LICENSE_PERMS_THIRD_PARTY_TF_C_LICENSES=	dist-mirror dist-sell pkg-mirror pkg-sell auto-accept
 
-ONLY_FOR_ARCHS=	amd64
+ONLY_FOR_ARCHS=	aarch64 amd64
 
 BUILD_DEPENDS=	bash:shells/bash \
 		bazel>=4.0.0:devel/bazel \
@@ -38,8 +38,25 @@ XLA_DESC=	Enable Accelerated Linear Algebra (XLA)
 XLA_VARS=	TF_ENABLE_XLA=1
 XLA_VARS_OFF=	TF_ENABLE_XLA=0
 
+BAZEL_ARGS=	--action_env=PATH=${PATH} \
+		--config=release_base \
+		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
+		--noshow_loading_progress \
+		--noshow_progress \
+		--subcommands \
+		--verbose_failures
 BAZEL_OPTS=	--output_user_root=${WRKDIR}/bazel_out
 CC?=	clang
+
+.include <bsd.port.pre.mk>
+
+.if ${ARCH} == "aarch64"
+BAZEL_ARGS+=	--define=tensorflow_mkldnn_contraction_kernel=0
+.endif
+
+.if ${ARCH} == "amd64"
+BAZEL_ARGS+=	--copt=-mavx --host_copt=-mavx
+.endif
 
 post-extract:
 	# THIRD_PARTY_TF_C_LICENSES is generated as a Bazel build target (see
@@ -64,29 +81,14 @@ do-configure:
 		${LOCALBASE}/bin/bash ./configure
 
 do-build:
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} build \
-		${BAZEL_ARGS} \
-		--action_env=PATH=${PATH} \
-		--config=release_cpu_freebsd \
-		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
-		--noshow_loading_progress \
-		--noshow_progress \
-		--subcommands \
-		--verbose_failures \
+	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} \
+		build ${BAZEL_ARGS} \
 		//tensorflow/tools/lib_package:clicenses_generate \
 		//tensorflow/tools/lib_package:libtensorflow.tar.gz
 
 do-test:
-	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} test \
-		${BAZEL_ARGS} \
-		--action_env=PATH=${PATH} \
-		--config=release_cpu_freebsd \
-		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
-		--noshow_loading_progress \
-		--noshow_progress \
-		--subcommands \
-		--test_env=CC=${CC} \
-		--verbose_failures \
+	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} \
+		test ${BAZEL_ARGS} --test_env=CC=${CC} \
 		//tensorflow/tools/lib_package:libtensorflow_test
 
 pre-install:
@@ -122,4 +124,4 @@ do-install:
 	${INSTALL_DATA} ${WRKDIR}/lib_package/include/tensorflow/c/eager/c_api_experimental.h ${STAGEDIR}${PREFIX}/include/tensorflow/c/eager/c_api_experimental.h
 	${INSTALL_DATA} ${WRKDIR}/lib_package/include/tensorflow/c/eager/dlpack.h ${STAGEDIR}${PREFIX}/include/tensorflow/c/eager/dlpack.h
 
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>
