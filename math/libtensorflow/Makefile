@@ -21,7 +21,10 @@ BUILD_DEPENDS=	bash:shells/bash \
 		git:devel/git \
 		${PYNUMPY}
 
-USES=	python:3.7-3.9,build
+USES=	cpe python:3.7-3.9,build
+
+CPE_VENDOR=	google
+
 BINARY_ALIAS=	python3=${PYTHON_CMD}
 BINARY_ALIAS+=	python=${PYTHON_CMD}
 
