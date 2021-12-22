@@ -48,12 +48,9 @@ BAZEL_ARGS=	--action_env=PATH=${PATH} \
 		--genrule_strategy=sandboxed \
 		--noshow_loading_progress \
 		--noshow_progress \
-		--sandbox_debug \
-		--spawn_strategy=sandboxed \
 		--subcommands \
 		--verbose_failures \
-		--worker_max_instance=${MAKE_JOBS_NUMBER} \
-		--worker_sandboxing
+		--worker_max_instances=${MAKE_JOBS_NUMBER} \
 BAZEL_OPTS=	--output_user_root=${WRKDIR}/bazel_out
 CC?=	clang
 
@@ -91,7 +88,8 @@ do-configure:
 
 do-build:
 	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} \
-		build ${BAZEL_ARGS} -- \
+		build ${BAZEL_ARGS} \
+		-- \
 		//tensorflow/tools/lib_package:clicenses_generate \
 		//tensorflow/tools/lib_package:libtensorflow.tar.gz
 
@@ -100,8 +98,8 @@ do-test:
 		test ${BAZEL_ARGS} \
 		--test_env=CC=${CC} \
 		--test_output=errors \
-		--test_strategy=standalone \
-		--test_verbose_timeout_warnings -- \
+		--test_verbose_timeout_warnings \
+		-- \
 		//tensorflow/tools/lib_package:libtensorflow_test
 
 pre-install:
