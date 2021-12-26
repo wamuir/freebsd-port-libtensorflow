@@ -1,8 +1,8 @@
-PORTNAME=	libtensorflow
+PORTNAME=	libtensorflow2
 DISTVERSIONPREFIX=	v
 DISTVERSION=	2.7.0
 DISTVERSIONSUFFIX=
-CATEGORIES=	math
+CATEGORIES=	science
 
 MAINTAINER=	wamuir@gmail.com
 COMMENT=	C API for TensorFlow, an open source platform for machine learning
@@ -32,6 +32,8 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	tensorflow
 GH_PROJECT=	tensorflow
 
+CONFLICTS_INSTALL=	libtensorflow1
+
 USE_LDCONFIG=	yes
 
 OPTIONS_DEFINE=	XLA
@@ -45,12 +47,11 @@ BAZEL_ARGS=	--action_env=PATH=${PATH} \
 		--color=no \
 		--config=release_base \
 		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
-		--genrule_strategy=sandboxed \
 		--noshow_loading_progress \
 		--noshow_progress \
 		--subcommands \
 		--verbose_failures \
-		--worker_max_instances=${MAKE_JOBS_NUMBER} \
+		--worker_max_instances=${MAKE_JOBS_NUMBER}
 BAZEL_OPTS=	--output_user_root=${WRKDIR}/bazel_out
 CC?=	clang
 
@@ -89,7 +90,6 @@ do-configure:
 do-build:
 	@cd ${WRKSRC} && ${LOCALBASE}/bin/bazel ${BAZEL_OPTS} \
 		build ${BAZEL_ARGS} \
-		-- \
 		//tensorflow/tools/lib_package:clicenses_generate \
 		//tensorflow/tools/lib_package:libtensorflow.tar.gz
 
@@ -99,7 +99,6 @@ do-test:
 		--test_env=CC=${CC} \
 		--test_output=errors \
 		--test_verbose_timeout_warnings \
-		-- \
 		//tensorflow/tools/lib_package:libtensorflow_test
 
 pre-install:
