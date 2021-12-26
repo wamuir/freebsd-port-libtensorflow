@@ -37,13 +37,27 @@ CONFLICTS_INSTALL=	libtensorflow1
 USE_LDCONFIG=	yes
 
 OPTIONS_DEFINE=	XLA
-OPTIONS_DEFAULT=
+
+OPTIONS_RADIO=	VXG
+OPTIONS_RADIO_VXG=	AVX AVX2
+
+VXG_DESC=	Vector Processing Extensions
+
+AVX_DESC=	Enable Intel Advanced Vector Extensions (AVX)
+AVX2_DESC=	Enable Intel Advanced Vector Extensions 2 (AVX2)
+
+AVX_VARS=	BAZEL_ARGS+="--copt=-mavx --host_copt=-mavx"
+AVX2_VARS=	BAZEL_ARGS+="--copt=-mavx --host_copt=-mavx" \
+		BAZEL_ARGS+="--copt=-mavx2 --host_copt=-mavx2"
 
 XLA_DESC=	Enable Accelerated Linear Algebra (XLA)
 XLA_VARS=	TF_ENABLE_XLA=1
 XLA_VARS_OFF=	TF_ENABLE_XLA=0
 
-BAZEL_ARGS=	--action_env=PATH=${PATH} \
+OPTIONS_DEFAULT_amd64=	AVX
+OPTIONS_EXCLUDE_aarch64=	AVX AVX2
+
+BAZEL_ARGS+=	--action_env=PATH=${PATH} \
 		--color=no \
 		--config=release_base \
 		--local_cpu_resources=${MAKE_JOBS_NUMBER} \
@@ -59,10 +73,6 @@ CC?=	clang
 
 .if ${ARCH} == "aarch64"
 BAZEL_ARGS+=	--define=tensorflow_mkldnn_contraction_kernel=0
-.endif
-
-.if ${ARCH} == "amd64"
-BAZEL_ARGS+=	--copt=-mavx --host_copt=-mavx
 .endif
 
 post-extract:
