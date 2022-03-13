@@ -15,8 +15,8 @@ include/tensorflow/c/tf_tensor.h
 include/tensorflow/c/tf_tstring.h
 include/tensorflow/core/platform/ctstring.h
 include/tensorflow/core/platform/ctstring_internal.h
-lib/libtensorflow.so.2.7.0
-lib/libtensorflow_framework.so.2.7.0
+lib/libtensorflow.so.2.8.0
+lib/libtensorflow_framework.so.2.8.0
 lib/libtensorflow_framework.so
 lib/libtensorflow_framework.so.2
 lib/libtensorflow.so

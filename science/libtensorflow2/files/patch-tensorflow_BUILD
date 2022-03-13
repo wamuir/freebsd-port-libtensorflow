@@ -1,12 +1,12 @@
---- tensorflow/BUILD.orig	2021-09-27 10:58:57 UTC
+--- tensorflow/BUILD.orig	2022-01-31 19:17:33 UTC
 +++ tensorflow/BUILD
-@@ -999,6 +999,9 @@ tf_cc_shared_object(
-         ],
-         "//tensorflow:windows": [
-         ],
+@@ -988,6 +988,9 @@ cc_import(
+ tf_cc_shared_object(
+     name = "tensorflow",
+     linkopts = select({
 +        "//tensorflow:freebsd": [
 +            "-Wl,--version-script,$(location //tensorflow/c:version_script.lds)",
 +        ],
-         # copybara:uncomment_begin(google-only)
-         # "//tools/cpp:asan_build": [
-         # "-Wl,--version-script,$(location //tensorflow/c:version_script.lds)",
+         "//tensorflow:macos": [
+             "-Wl,-exported_symbols_list,$(location //tensorflow/c:exported_symbols.lds)",
+         ],

@@ -1,6 +1,6 @@
---- .bazelrc.orig	2021-09-25 06:40:15 UTC
+--- .bazelrc.orig	2022-01-31 19:17:33 UTC
 +++ .bazelrc
-@@ -299,6 +299,10 @@ build:windows --copt=/D_USE_MATH_DEFINES
+@@ -306,6 +306,10 @@ build:windows --copt=/D_USE_MATH_DEFINES
  build:windows --host_copt=/D_USE_MATH_DEFINES
  
  # Default paths for TF_SYSTEM_LIBS
@@ -11,7 +11,7 @@
  build:linux --define=PREFIX=/usr
  build:linux --define=LIBDIR=$(PREFIX)/lib
  build:linux --define=INCLUDEDIR=$(PREFIX)/include
-@@ -312,6 +316,8 @@ build:macos --define=PROTOBUF_INCLUDE_PATH=$(PREFIX)/i
+@@ -319,6 +323,8 @@ build:macos --define=PROTOBUF_INCLUDE_PATH=$(PREFIX)/i
  # By default, build TF in C++ 14 mode.
  build:android --cxxopt=-std=c++14
  build:android --host_cxxopt=-std=c++14

@@ -1,6 +1,6 @@
 PORTNAME=	libtensorflow2
 DISTVERSIONPREFIX=	v
-DISTVERSION=	2.7.0
+DISTVERSION=	2.8.0
 DISTVERSIONSUFFIX=
 CATEGORIES=	science
 
@@ -17,11 +17,11 @@ LICENSE_PERMS_THIRD_PARTY_TF_C_LICENSES=	dist-mirror dist-sell pkg-mirror pkg-se
 ONLY_FOR_ARCHS=	aarch64 amd64
 
 BUILD_DEPENDS=	bash:shells/bash \
-		bazel>=4.0.0:devel/bazel \
+		bazel=4.2.1:devel/bazel \
 		git:devel/git \
 		${PYNUMPY}
 
-USES=	cpe python:3.7-3.9,build
+USES=	cpe python:3.7-3.10,build
 
 CPE_VENDOR=	google
 
